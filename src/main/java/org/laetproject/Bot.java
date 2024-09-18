@@ -6,6 +6,10 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.laetproject.commands.CommandManager;
 import org.laetproject.listeners.EventMessage;
 
 import javax.security.auth.login.LoginException;
@@ -35,8 +39,12 @@ public class Bot {
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setStatus(OnlineStatus.DO_NOT_DISTURB)
                 .setActivity(Activity.listening("Mamonas Assassinas"))
-                .enableIntents(GatewayIntent.GUILD_MESSAGES)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT);
+                .enableIntents(GatewayIntent.GUILD_MESSAGES,
+                        GatewayIntent.MESSAGE_CONTENT,
+                        GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES);
+                //.setMemberCachePolicy(MemberCachePolicy.ALL)
+                //.setChunkingFilter(ChunkingFilter.ALL)
+                //.enableCache(CacheFlag.ONLINE_STATUS, CacheFlag.ACTIVITY)
         shardManager = builder.build();
         registerListeners();
     }
@@ -45,8 +53,8 @@ public class Bot {
         return config;
     }
 
-    public void registerListeners() {
-        shardManager.addEventListener(new EventMessage());
+    private void registerListeners() {
+        shardManager.addEventListener(new EventMessage(), new CommandManager());
     }
 }
 
