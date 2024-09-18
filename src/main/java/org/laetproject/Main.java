@@ -1,6 +1,8 @@
 package org.laetproject;
 
 import javax.security.auth.login.LoginException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 
 public class Main {
 
