@@ -6,12 +6,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import org.laetproject.commands.AjudaCommand;
-import org.laetproject.commands.DarCargoCommand;
-import org.laetproject.commands.EmocaoCommand;
-import org.laetproject.commands.CargosCommand;
+import org.laetproject.commands.*;
 import org.laetproject.commands.config.CommandManager;
-import org.laetproject.commands.RecadoCommand;
 import org.laetproject.listeners.EventMessage;
 
 import javax.security.auth.login.LoginException;
@@ -24,7 +20,6 @@ import javax.security.auth.login.LoginException;
 
 public class Bot {
 
-    private final Dotenv config;
     private final ShardManager shardManager;
     private final CommandManager commandManager = new CommandManager();
 
@@ -35,7 +30,7 @@ public class Bot {
      */
 
     public Bot() throws LoginException {
-        config = Dotenv.configure().load();
+        Dotenv config = Dotenv.configure().load();
         String token = config.get("TOKEN");
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setStatus(OnlineStatus.DO_NOT_DISTURB)
@@ -61,6 +56,7 @@ public class Bot {
         commandManager.add(new EmocaoCommand());
         commandManager.add(new CargosCommand());
         commandManager.add(new DarCargoCommand());
+        commandManager.add(new InfoCommand());
     }
 
 }

@@ -9,8 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 import org.laetproject.commands.config.ICommand;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class RecadoCommand implements ICommand {
@@ -40,14 +39,10 @@ public class RecadoCommand implements ICommand {
     public void execute(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
         if (command.equals("recado")) {
+            event.deferReply().setEphemeral(true).queue();
             OptionMapping option1 = event.getOption("recado");
             OptionMapping option2 = event.getOption("canal");
             MessageChannel channel;
-
-            if (option1 == null) {
-                event.reply("O recado não pode ser nulo.").setEphemeral(true).queue();
-                return;
-            }
 
             if (option2 != null && option2.getAsChannel().getType().isMessage()) {
                 channel = option2.getAsChannel().asTextChannel();
@@ -56,8 +51,8 @@ public class RecadoCommand implements ICommand {
             }
 
             channel.sendMessage(option1.getAsString()).queue();
-            event.reply("Seu recado foi enviado.").setEphemeral(true).queue(msg ->
-                    msg.deleteOriginal().queueAfter(2, TimeUnit.SECONDS));
+            event.getHook().sendMessage("Seu recado foi enviado.").setEphemeral(true).queue(msg ->
+                    msg.delete().queueAfter(2, TimeUnit.SECONDS));
         }
     }
 }
