@@ -6,15 +6,15 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.laetproject.commands.CommandManager;
+import org.laetproject.commands.AjudaCommand;
+import org.laetproject.commands.DarCargoCommand;
+import org.laetproject.commands.EmocaoCommand;
+import org.laetproject.commands.CargosCommand;
+import org.laetproject.commands.config.CommandManager;
+import org.laetproject.commands.RecadoCommand;
 import org.laetproject.listeners.EventMessage;
 
 import javax.security.auth.login.LoginException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 
 /*
  * Classe destinada a configurar o Bot
@@ -26,6 +26,7 @@ public class Bot {
 
     private final Dotenv config;
     private final ShardManager shardManager;
+    private final CommandManager commandManager = new CommandManager();
 
     /*
      * Carrega as configurações do bot e pré-define suas atividades
@@ -49,12 +50,18 @@ public class Bot {
         registerListeners();
     }
 
-    public Dotenv getConfig() {
-        return config;
+    private void registerListeners() {
+        registerCommands();
+        shardManager.addEventListener(new EventMessage(), commandManager);
     }
 
-    private void registerListeners() {
-        shardManager.addEventListener(new EventMessage(), new CommandManager());
+    private void registerCommands() {
+        commandManager.add(new AjudaCommand());
+        commandManager.add(new RecadoCommand());
+        commandManager.add(new EmocaoCommand());
+        commandManager.add(new CargosCommand());
+        commandManager.add(new DarCargoCommand());
     }
+
 }
 
