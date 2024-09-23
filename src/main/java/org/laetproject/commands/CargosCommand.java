@@ -31,6 +31,7 @@ public class CargosCommand implements ICommand {
         if(command.equals("cargos")){
             event.deferReply().setEphemeral(true).queue();
             StringBuilder cargosStringBuilder = new StringBuilder();
+            event.getGuild().getRoles();
             for (Role role : event.getGuild().getRoles()){
 
                 if (role.isPublicRole()){
