@@ -33,23 +33,6 @@ public class EventMessage extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        Message message = event.getMessage();
-        String messageContent = message.getContentRaw();
-        User user = event.getAuthor();
-
-        if (user.isBot())
-            return;
-
-        if (messageContent.contains("fdp") || messageContent.contains("lixo")) {
-            message.delete().queue();
-            event.getChannel().sendMessage("Cuidado com o que fala!").queue(msg ->  {
-                msg.delete().queueAfter(3, TimeUnit.SECONDS);
-            });
-        }
-    }
-
-    @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         User user = event.getUser();
         System.out.println(user.getEffectiveAvatarUrl());
