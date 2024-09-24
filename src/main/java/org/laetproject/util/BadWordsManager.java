@@ -1,23 +1,21 @@
-package org.laetproject.commands.util;
+package org.laetproject.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
 public class BadWordsManager {
 
     private Set<String> badWords;
+    private final String path = "badwords.txt";
 
     public BadWordsManager() {
         badWords = new HashSet<>();
-        createFile("badwords.txt"); // Cria o arquivo se não existir
+        createFile(path);
         loadConfiguration();
     }
 
-    public void createFile(String src) {
+    private void createFile(String src) {
         File file = new File(src);
         try {
             if (file.createNewFile()) {
@@ -31,7 +29,7 @@ public class BadWordsManager {
     }
 
     private void loadConfiguration() {
-        File file = new File("badwords.txt");
+        File file = new File(path);
         if (!file.exists()) {
             System.out.println("Arquivo badwords.txt não encontrado.");
             return;
@@ -54,5 +52,24 @@ public class BadWordsManager {
             }
         }
         return false;
+    }
+
+    public void writeLine(String line) {
+        File file = new File(path);
+        if (!file.exists()) {
+            System.out.println("Arquivo badwords.txt não encontrado.");
+            return;
+        }
+
+        String[] palavras = line.split(",");
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
+            for (String palavra : palavras) {
+                bw.write(palavra);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

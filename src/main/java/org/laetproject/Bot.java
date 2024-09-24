@@ -19,7 +19,7 @@ import javax.security.auth.login.LoginException;
  * @author Gabriel Laet
  */
 
-public class Bot {
+public final class Bot {
 
     private final ShardManager shardManager;
     private final CommandManager commandManager = new CommandManager();
@@ -58,6 +58,7 @@ public class Bot {
         commandManager.add(new CargosCommand());
         commandManager.add(new DarCargoCommand());
         commandManager.add(new InfoCommand());
+        commandManager.add(new AdicionarPalavraCommand());
     }
 
 }
