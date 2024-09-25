@@ -59,6 +59,7 @@ public final class Bot {
         commandManager.add(new DarCargoCommand());
         commandManager.add(new InfoCommand());
         commandManager.add(new AdicionarPalavraCommand());
+        commandManager.add(new SorteioFilmeCommand());
     }
 
 }

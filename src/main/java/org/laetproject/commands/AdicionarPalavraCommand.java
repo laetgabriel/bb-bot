@@ -6,14 +6,13 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.laetproject.commands.config.ICommand;
-import org.laetproject.util.BadWordsManager;
+import org.laetproject.util.BadWordManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class AdicionarPalavraCommand implements ICommand {
-    private BadWordsManager badWordsManager = new BadWordsManager();
+    private BadWordManager badWordsManager = new BadWordManager();
 
     @Override
     public String getName() {
@@ -39,7 +38,7 @@ public class AdicionarPalavraCommand implements ICommand {
         if(command.equals("addpalavra")){
             event.deferReply().setEphemeral(true).queue();
             OptionMapping option = event.getOption("palavra");
-            badWordsManager.writeLine(option.getAsString());
+            badWordsManager.writeLine(option.getAsString(), "badwords.txt");
             event.getHook().sendMessage("Palavra adicionada").queue();
         }
     }
