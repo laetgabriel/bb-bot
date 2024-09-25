@@ -12,7 +12,7 @@ import org.laetproject.util.BadWordManager;
 
 import java.util.concurrent.TimeUnit;
 
-public class ButtonListener extends ListenerAdapter {
+public class ButtonBadWordListener extends ListenerAdapter {
 
     private final BadWordManager badWordsManager = new BadWordManager();
 
