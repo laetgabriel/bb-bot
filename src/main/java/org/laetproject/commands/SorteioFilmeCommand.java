@@ -15,7 +15,8 @@ import org.json.*;
 
 import java.awt.*;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -45,18 +46,22 @@ public class SorteioFilmeCommand implements ICommand {
         String command = event.getName();
         if (command.equals("sortear")) {
             event.deferReply().setEphemeral(false).queue();
+
             OptionMapping option = event.getOption("filme");
-            String[] filmes = option.getAsString().split(",");
+            String[] filmes = option.getAsString().split("\"(,\\s*)?\"");
             int filmeSorteado = new Random().nextInt(filmes.length);
             String filme = filmes[filmeSorteado];
 
             String apiKey = dotenv.get("API_KEY");
             OkHttpClient client = new OkHttpClient();
-            String url = "https://www.omdbapi.com/?t=" + filme.replace(" ", "+") + "&apikey=" + apiKey;
+
+            String encodedFilme = URLEncoder.encode(filme, StandardCharsets.UTF_8);
+            String url = "https://www.omdbapi.com/?t=" + encodedFilme + "&apikey=" + apiKey;
+
             Request request = new Request.Builder().url(url).build();
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
-                    throw new IOException("Erro ao buscar informações do filme");
+                    throw new IOException("Erro ao fazer requisição");
                 }
                 String responseBody = response.body().string();
                 JSONObject json = new JSONObject(responseBody);
@@ -75,15 +80,16 @@ public class SorteioFilmeCommand implements ICommand {
                     embedMovie.addField("🎉 **Parabéns ao Filme Vencedor!**", "Prepare a pipoca 🍿 e aproveite o show!", true);
                     embedMovie.setThumbnail(json.getString("Poster"));
                     embedMovie.setFooter(
-                            "Sorteio realizado por " + event.getUser().getName() + " | " + LocalDateTime.now().minusHours(3).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
+                            "Sorteio realizado por " + event.getUser().getName() + " | " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
                             event.getUser().getAvatarUrl()
                     );
 
                     MessageCreateBuilder messageCreateBuilder = new MessageCreateBuilder()
                             .setEmbeds(embedMovie.build());
                     event.getHook().sendMessage(messageCreateBuilder.build()).queue();
-                } else
-                    event.getHook().sendMessage("Não consegui encontrar o filme sorteado 😿 ");
+                } else {
+                    event.getHook().sendMessage("Não consegui encontrar o filme sorteado 😿").queue();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -91,3 +97,4 @@ public class SorteioFilmeCommand implements ICommand {
         }
     }
 }
+
