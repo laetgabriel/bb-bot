@@ -15,6 +15,9 @@ import org.json.*;
 
 import java.awt.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
@@ -24,25 +27,25 @@ public class SorteioFilmeCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "sorteiar";
+        return "sortear";
     }
 
     @Override
     public String getDescription() {
-        return "Use para sorteiar os palavras";
+        return "Use para sortear os filmes";
     }
 
     @Override
     public List<OptionData> getOptions() {
-        return List.of(new OptionData(OptionType.STRING, "palavra", "Nome do que você deseja incluir no sorteio (separe por vírgulas)", true));
+        return List.of(new OptionData(OptionType.STRING, "filme", "Nome do filme que você deseja incluir no sorteio (separe por vírgulas)", true));
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         String command = event.getName();
-        if (command.equals("sorteiar")) {
+        if (command.equals("sortear")) {
             event.deferReply().setEphemeral(false).queue();
-            OptionMapping option = event.getOption("palavra");
+            OptionMapping option = event.getOption("filme");
             String[] filmes = option.getAsString().split(",");
             int filmeSorteado = new Random().nextInt(filmes.length);
             String filme = filmes[filmeSorteado];
@@ -71,7 +74,10 @@ public class SorteioFilmeCommand implements ICommand {
                     embedMovie.addField("🎥 **Total de Filmes no Sorteio**", String.valueOf(filmes.length), true);
                     embedMovie.addField("🎉 **Parabéns ao Filme Vencedor!**", "Prepare a pipoca 🍿 e aproveite o show!", true);
                     embedMovie.setThumbnail(json.getString("Poster"));
-                    embedMovie.setFooter("Sorteio realizado por " + event.getUser().getName(), event.getUser().getAvatarUrl());
+                    embedMovie.setFooter(
+                            "Sorteio realizado por " + event.getUser().getName() + " | " + LocalDateTime.now().minusHours(3).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
+                            event.getUser().getAvatarUrl()
+                    );
 
                     MessageCreateBuilder messageCreateBuilder = new MessageCreateBuilder()
                             .setEmbeds(embedMovie.build());
