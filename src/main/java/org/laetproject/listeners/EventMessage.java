@@ -1,17 +1,15 @@
 package org.laetproject.listeners;
 
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class EventMessage extends ListenerAdapter {
+public final class EventMessage extends ListenerAdapter {
 
+    /*
+    Evento sem utilidade.
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
         User user = event.getUser();
@@ -27,11 +25,17 @@ public class EventMessage extends ListenerAdapter {
         event.getChannel().sendMessage(message).queue();
     }
 
+     */
+
+    /*
+    Evento sem utilidade.
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         User user = event.getUser();
         System.out.println(user.getEffectiveAvatarUrl());
     }
+
+     */
 
     /*
     Evento sem utilidade. Consome muita memória cache

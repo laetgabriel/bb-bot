@@ -2,6 +2,7 @@ package org.laetproject.util;
 
 import java.io.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class WordManager {
@@ -20,21 +21,20 @@ public class WordManager {
         }
     }
 
-    public void loadConfiguration(String path, Set<String> word) {
-        File file = new File(path);
-        if (!file.exists()) {
-            System.out.println("Arquivo não encontrado.");
-            return;
-        }
+    public static String loadConfiguration(InputStream inputStream, String filmes) {
+        StringBuilder filmesBuilder = new StringBuilder(filmes);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = br.readLine()) != null) {
-                word.add(line.toLowerCase().trim());
+                filmesBuilder.append(line.toLowerCase().trim()).append("\n");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
+        return filmesBuilder.toString();
     }
 
     public void writeLine(String line, String path) {

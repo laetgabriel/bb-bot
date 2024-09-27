@@ -7,6 +7,7 @@ public final class BadWordManager extends WordManager {
 
     private final static String PATH = "badwords.txt";
     private Set<String> badWords = new HashSet<>();
+
 /*
     public BadWordManager() {
         createFile(PATH);

@@ -23,6 +23,7 @@ public final class Bot {
 
     private final ShardManager shardManager;
     private final CommandManager commandManager = new CommandManager();
+    public final static String PREFIX = "bb!";
 
     /*
      * Carrega as configurações do bot e pré-define suas atividades
@@ -35,7 +36,7 @@ public final class Bot {
         String token = config.get("TOKEN");
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setStatus(OnlineStatus.DO_NOT_DISTURB)
-                .setActivity(Activity.listening("Mamonas Assassinas"))
+                .setActivity(Activity.listening("bb!help"))
                 .enableIntents(GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.MESSAGE_CONTENT,
                         GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES);
@@ -48,11 +49,10 @@ public final class Bot {
 
     private void registerListeners() {
         registerCommands();
-        shardManager.addEventListener(new EventMessage(), commandManager, new ButtonBadWordListener());
+        shardManager.addEventListener(new EventMessage(), new HelpCommand(), commandManager, new ButtonBadWordListener());
     }
 
     private void registerCommands() {
-        commandManager.add(new AjudaCommand());
         commandManager.add(new RecadoCommand());
         commandManager.add(new EmocaoCommand());
         commandManager.add(new CargosCommand());
