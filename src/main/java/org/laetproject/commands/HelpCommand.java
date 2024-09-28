@@ -31,7 +31,6 @@ public class HelpCommand extends ListenerAdapter {
         }
     }
 
-
     @Override
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
         event.deferReply().setEphemeral(true).queue();

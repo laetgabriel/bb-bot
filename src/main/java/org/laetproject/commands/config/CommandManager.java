@@ -25,15 +25,19 @@ public final class CommandManager extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        for(Guild guild : event.getJDA().getGuilds()){
-            guild.updateCommands().queue();
-            for(ICommand command : commands){
-                guild.upsertCommand(command.getName(), command.getDescription()).addOptions(command.getOptions()).queue();
+        for (Guild guild : event.getJDA().getGuilds()) {
+            for (ICommand command : commands) {
+                guild.upsertCommand(command.getName(), command.getDescription())
+                        .addOptions(command.getOptions())
+                        .queue(
+                                success -> System.out.println("Comando '" + command.getName() + "' registrado no servidor: " + guild.getName()),
+                                failure -> System.err.println("Falha ao registrar o comando '" + command.getName() + "' no servidor: " + guild.getName())
+                        );
             }
         }
     }
 
-    public void add(ICommand command){
+    public void add(ICommand command) {
         commands.add(command);
     }
 
