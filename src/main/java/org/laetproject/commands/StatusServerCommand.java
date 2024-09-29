@@ -12,11 +12,7 @@ import org.laetproject.Bot;
 
 import java.awt.*;
 import java.io.*;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 public class StatusServerCommand extends ListenerAdapter {
 

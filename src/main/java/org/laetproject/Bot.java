@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import org.laetproject.commands.*;
 import org.laetproject.commands.config.CommandManager;
 import org.laetproject.listeners.ButtonBadWordListener;
-import org.laetproject.listeners.EventMessage;
+import org.laetproject.listeners.XPEventListener;
 import org.laetproject.listeners.UsuarioEntraNoServidorListener;
 
 import javax.security.auth.login.LoginException;
@@ -50,7 +50,7 @@ public final class Bot {
 
     private void registerListeners() {
         registerCommands();
-        shardManager.addEventListener(new StatusServerCommand(), new SkinCommand(), new EventMessage(), new HelpCommand(), new UsuarioEntraNoServidorListener(), commandManager, new ButtonBadWordListener());
+        shardManager.addEventListener(new StatusServerCommand(), new SkinCommand(), new XPEventListener(), new HelpCommand(), new UsuarioEntraNoServidorListener(), commandManager, new ButtonBadWordListener());
     }
 
     private void registerCommands() {
