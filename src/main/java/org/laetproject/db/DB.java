@@ -1,12 +1,11 @@
 package org.laetproject.db;
 
 import org.laetproject.db.exceptions.DBException;
+import org.laetproject.util.FileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public final class DB {
@@ -24,16 +23,18 @@ public final class DB {
                 connection = DriverManager.getConnection(url);
 
                 System.out.println("Conectado ao Banco de Dados");
-
             } catch (SQLException e) {
                 throw new DBException(e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
+
         return connection;
     }
 
     private static Properties getProperties() {
-        try (FileInputStream fs = new FileInputStream("db.properties")) {
+        try (FileInputStream fs = new FileInputStream("src/main/resources/db.properties")) {
             Properties props = new Properties();
             props.load(fs);
             return props;
@@ -43,10 +44,13 @@ public final class DB {
     }
 
     public static void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new DBException(e.getMessage());
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null;
+            } catch (SQLException e) {
+                throw new DBException(e.getMessage());
+            }
         }
     }
 }
