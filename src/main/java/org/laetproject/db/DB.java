@@ -1,7 +1,6 @@
 package org.laetproject.db;
 
 import org.laetproject.db.exceptions.DBException;
-import org.laetproject.util.FileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,15 +17,12 @@ public final class DB {
     public static Connection getConnection() {
         if (connection == null) {
             try {
-                Properties props = getProperties();
-                String url = props.getProperty("dburl");
-                connection = DriverManager.getConnection(url);
+
+                connection = DriverManager.getConnection("jdbc:sqlite:database.db");
 
                 System.out.println("Conectado ao Banco de Dados");
             } catch (SQLException e) {
                 throw new DBException(e.getMessage());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
         }
 
@@ -34,7 +30,7 @@ public final class DB {
     }
 
     private static Properties getProperties() {
-        try (FileInputStream fs = new FileInputStream("src/main/resources/db.properties")) {
+        try (FileInputStream fs = new FileInputStream("src/main/java/org/laetproject/db/db.properties")) {
             Properties props = new Properties();
             props.load(fs);
             return props;

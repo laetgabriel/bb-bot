@@ -54,7 +54,7 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
             preparedStatement.setInt(4, experiencia.getId());
 
             preparedStatement.executeUpdate();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Erro ao alterar experiencia");
         }
     }
@@ -79,12 +79,12 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
     public List<Experiencia> listarExperiencia() {
         String sql = "select * from experiencia";
         List<Experiencia> experiencias = new ArrayList<>();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 experiencias.add(instanciarExperiencia(rs));
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Erro ao listar experiencias" + e.getMessage());
         }
 
@@ -92,9 +92,16 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
     }
 
     public void criarTabela() throws IOException {
-        String sql = FileUtils.loadTextFile("src/main/resources/experiencia.sql");
+        String sql = """
+                CREATE TABLE IF NOT EXISTS experiencia (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   guild_id TEXT NOT NULL,
+                   user_id TEXT NOT NULL,
+                   xp REAL NOT NULL
+                );
+                """;
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DBException("Falha ao criar tabela");
