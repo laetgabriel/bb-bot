@@ -3,7 +3,9 @@ package org.laetproject.dao.impl;
 import org.laetproject.entities.Experiencia;
 import org.laetproject.dao.ExperienciaDAO;
 import org.laetproject.db.exceptions.DBException;
+import org.laetproject.util.FileUtils;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,16 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
         }
 
         return experiencias;
+    }
+
+    public void criarTabela() throws IOException {
+        String sql = FileUtils.loadTextFile("src/main/resources/experiencia.sql");
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DBException("Falha ao criar tabela");
+        }
     }
 
     private Experiencia instanciarExperiencia(ResultSet rs) throws SQLException {
