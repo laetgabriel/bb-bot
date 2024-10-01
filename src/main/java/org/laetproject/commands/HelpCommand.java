@@ -16,6 +16,9 @@ public class HelpCommand extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        if(event.getAuthor().isBot()) return;
+        if(!event.isFromGuild()) return;
+
         String[] command = event.getMessage().getContentRaw().trim().split(" ");
         if (command[0].equalsIgnoreCase(Bot.PREFIX + "help")) {
 

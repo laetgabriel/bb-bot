@@ -56,6 +56,7 @@ public class SorteioFilmeCommand implements ICommand {
             event.deferReply().setEphemeral(false).queue();
             OptionMapping option = event.getOption("filme");
             OptionMapping optionAttachment = event.getOption("arquivo");
+
             if (option != null) {
                 optionFilmeList = new ArrayList<>(List.of(option.getAsString().split("\"(,\\s*)?\"")));
 
