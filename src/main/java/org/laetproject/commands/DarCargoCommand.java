@@ -1,5 +1,6 @@
 package org.laetproject.commands;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -36,13 +37,17 @@ public class DarCargoCommand implements ICommand {
     public void execute(SlashCommandInteractionEvent event) {
         String command = event.getName();
         if(command.equals("darcargo")) {
-
             event.deferReply().setEphemeral(true).queue();
-            OptionMapping optionMember = event.getOption("membro");
-            OptionMapping optionRole = event.getOption("cargo");
+            if (event.getMember().hasPermission(Permission.MANAGE_ROLES)) {
 
-            event.getGuild().addRoleToMember(optionMember.getAsMember(), optionRole.getAsRole()).queue();
-            event.getHook().sendMessage("Cargo atribuido com sucesso").queue();
+
+                OptionMapping optionMember = event.getOption("membro");
+                OptionMapping optionRole = event.getOption("cargo");
+
+                event.getGuild().addRoleToMember(optionMember.getAsMember(), optionRole.getAsRole()).queue();
+                event.getHook().sendMessage("Cargo atribuido com sucesso").queue();
+            }else
+                event.getHook().sendMessage("Sem permissão para usar esse comando").setEphemeral(true).queue();
         }
     }
 }

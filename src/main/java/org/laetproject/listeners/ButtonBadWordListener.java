@@ -49,7 +49,6 @@ public class ButtonBadWordListener extends ListenerAdapter {
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         String[] buttonData = event.getButton().getId().split(":");
-
         if (buttonData[0].equals("remove")) {
             event.deferReply().setEphemeral(true).queue();
             String messageId = buttonData[1];

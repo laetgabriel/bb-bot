@@ -13,6 +13,7 @@ public class Main {
 
         try{
            final ExperienciaDAOImpl experienciaDAO = new ExperienciaDAOImpl(DB.getConnection());
+
            experienciaDAO.criarTabela();
             Bot bot = new Bot();
         } catch (LoginException | IOException e) {
