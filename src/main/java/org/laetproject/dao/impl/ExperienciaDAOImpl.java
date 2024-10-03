@@ -91,6 +91,7 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
         return experiencias;
     }
 
+    @Override
     public void criarTabela() throws IOException {
         String sql = """
                 CREATE TABLE IF NOT EXISTS experiencia (

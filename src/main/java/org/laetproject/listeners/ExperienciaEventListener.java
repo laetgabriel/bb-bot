@@ -60,6 +60,7 @@ public final class ExperienciaEventListener extends ListenerAdapter {
                     event.getMember().getAsMention(), xp);
             event.getMessage().reply(mensagem).queue();
         }
+
     }
 
 }

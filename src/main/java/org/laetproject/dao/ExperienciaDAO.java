@@ -2,6 +2,7 @@ package org.laetproject.dao;
 
 import org.laetproject.entities.Experiencia;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -11,4 +12,5 @@ public interface ExperienciaDAO {
     void alterarExperiencia(Experiencia experiencia);
     void excluirExperiencia(Experiencia experiencia);
     List<Experiencia> listarExperiencia();
+    void criarTabela() throws IOException;
 }
