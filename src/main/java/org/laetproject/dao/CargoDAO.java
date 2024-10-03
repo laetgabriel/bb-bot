@@ -12,7 +12,7 @@ public interface CargoDAO {
     void alterarCargo(Cargo cargo);
     void excluirCargo(Cargo cargo);
     List<Cargo> listarCargos();
-    Cargo buscarCargoPorId(Cargo id);
+    Cargo buscarCargoPorId(String guildId);
     void criarTabela() throws IOException;
 
 }

@@ -43,6 +43,7 @@ public class CargoDAOImpl implements CargoDAO {
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, cargo.getGuildId());
             preparedStatement.setLong(2, cargo.getRoleId());
+            preparedStatement.setInt(3, cargo.getId());
             preparedStatement.executeUpdate();
         }catch (SQLException e) {
             throw new DBException("Erro ao alterar cargo");
@@ -69,11 +70,11 @@ public class CargoDAOImpl implements CargoDAO {
     }
 
     @Override
-    public Cargo buscarCargoPorId(Cargo id) {
-        String sql = "select * from cargo where id = ?";
+    public Cargo buscarCargoPorId(String guildId) {
+        String sql = "select * from cargo where guild_id = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setInt(1, id.getId());
+            preparedStatement.setString(1, guildId);
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 if(resultSet.next()){
                     return instanciarCargo(resultSet);
@@ -87,21 +88,19 @@ public class CargoDAOImpl implements CargoDAO {
 
     @Override
     public void criarTabela() throws IOException {
-        String sql =
-                """
+        String sql = """
                 CREATE TABLE IF NOT EXISTS cargo (
                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                    guild_id TEXT NOT NULL,
-                   role_id TEXT NOT NULL,
+                   role_id integer NOT NULL
                 );
                 """;
 
-        try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-         ps.execute();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.execute();
         } catch (SQLException e) {
-            throw new DBException("Erro ao criar tabela");
+            throw new DBException("Falha ao criar tabela");
         }
-
     }
 
     private Cargo instanciarCargo(ResultSet rs) throws SQLException {

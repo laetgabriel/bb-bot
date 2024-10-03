@@ -1,5 +1,6 @@
 package org.laetproject;
 
+import org.laetproject.dao.impl.CargoDAOImpl;
 import org.laetproject.dao.impl.ExperienciaDAOImpl;
 import org.laetproject.db.DB;
 
@@ -13,7 +14,8 @@ public class Main {
 
         try{
            final ExperienciaDAOImpl experienciaDAO = new ExperienciaDAOImpl(DB.getConnection());
-
+           final CargoDAOImpl cargoDAO = new CargoDAOImpl(DB.getConnection());
+           cargoDAO.criarTabela();
            experienciaDAO.criarTabela();
             Bot bot = new Bot();
         } catch (LoginException | IOException e) {

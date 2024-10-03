@@ -14,14 +14,16 @@ import java.util.List;
 public final class ExperienciaEventListener extends ListenerAdapter {
 
     private final Double XP_PADRAO = 6.5;
-    private final ExperienciaDAO experienciaDAO = new ExperienciaDAOImpl(DB.getConnection());
+
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
         if (!event.isFromGuild()) return;
 
+        final ExperienciaDAO experienciaDAO = new ExperienciaDAOImpl(DB.getConnection());
         final List<Experiencia> experiencias = experienciaDAO.listarExperiencia();
+
         String guildId = event.getGuild().getId();
         String userId = event.getAuthor().getId();
         boolean existeExperiencia = false;
