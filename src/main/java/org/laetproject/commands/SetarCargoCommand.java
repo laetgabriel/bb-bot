@@ -40,7 +40,6 @@ public class SetarCargoCommand extends ListenerAdapter {
             Role role = rolesList.get(0);
 
             try {
-
                 CargoDAO cargoDAO = new CargoDAOImpl(DB.getConnection());
                 Cargo cargo = cargoDAO.buscarCargoPorId(event.getGuild().getId());
                 if (cargo == null) {

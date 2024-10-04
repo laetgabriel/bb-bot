@@ -50,7 +50,7 @@ public final class Bot {
 
     private void registerListeners() {
         registerCommands();
-        shardManager.addEventListener(new SetarCargoCommand(), new StatusExperienciaCommand(), new StatusServerCommand(), new SkinCommand(), new ExperienciaEventListener(), new HelpCommand(), new UsuarioEntraNoServidorListener(), commandManager, new ButtonBadWordListener());
+        shardManager.addEventListener(new KanyeCommand(), new SetarCargoCommand(), new StatusExperienciaCommand(), new StatusServerCommand(), new SkinCommand(), new ExperienciaEventListener(), new HelpCommand(), new UsuarioEntraNoServidorListener(), commandManager, new ButtonBadWordListener());
     }
 
     private void registerCommands() {
