@@ -11,6 +11,7 @@ import org.laetproject.commands.config.CommandManager;
 import org.laetproject.listeners.ButtonBadWordListener;
 import org.laetproject.listeners.ExperienciaEventListener;
 import org.laetproject.listeners.UsuarioEntraNoServidorListener;
+import org.laetproject.listeners.UsuarioSaiDoServidorListener;
 
 import javax.security.auth.login.LoginException;
 
@@ -50,7 +51,7 @@ public final class Bot {
 
     private void registerListeners() {
         registerCommands();
-        shardManager.addEventListener(new KanyeCommand(), new SetarCargoCommand(), new StatusExperienciaCommand(), new StatusServerCommand(), new SkinCommand(), new ExperienciaEventListener(), new HelpCommand(), new UsuarioEntraNoServidorListener(), commandManager, new ButtonBadWordListener());
+        shardManager.addEventListener(new UsuarioSaiDoServidorListener(), new KanyeCommand(), new SetarCargoCommand(), new StatusExperienciaCommand(), new StatusServerCommand(), new SkinCommand(), new ExperienciaEventListener(), new HelpCommand(), new UsuarioEntraNoServidorListener(), commandManager, new ButtonBadWordListener());
     }
 
     private void registerCommands() {

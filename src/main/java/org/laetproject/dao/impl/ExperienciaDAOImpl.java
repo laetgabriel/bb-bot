@@ -1,5 +1,6 @@
 package org.laetproject.dao.impl;
 
+import org.laetproject.entities.Cargo;
 import org.laetproject.entities.Experiencia;
 import org.laetproject.dao.ExperienciaDAO;
 import org.laetproject.db.exceptions.DBException;
@@ -68,7 +69,7 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
 
             int linhasAfetadas = stmt.executeUpdate();
             if (linhasAfetadas == 0) {
-                throw new DBException("Nenhuma experiência foi excluída. ID inválido: " + experiencia.getId());
+                throw new DBException("Nenhum perfil de experiência foi excluído. ID inválido: " + experiencia.getId());
             }
         } catch (SQLException e) {
             throw new DBException("Erro ao excluir experiência: " + e.getMessage());
@@ -89,6 +90,23 @@ public class ExperienciaDAOImpl implements ExperienciaDAO {
         }
 
         return experiencias;
+    }
+
+    public Experiencia buscarCargoPorIdGuildEIdUser(String guildId, String userId) {
+        String sql = "select * from experiencia where guild_id = ? and user_id = ?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, guildId);
+            preparedStatement.setString(2, userId);
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                if(resultSet.next()){
+                    return instanciarExperiencia(resultSet);
+                }
+            }
+        }catch (SQLException e) {
+            throw new DBException("Erro ao buscar experiencia");
+        }
+        return null;
     }
 
     @Override
